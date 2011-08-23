@@ -172,34 +172,42 @@
               );
             }
                         
-            vertex = new google.maps.Marker({
-              position : position,
-              map : self.getMap(),
-              icon : imgGhostVertex,
-              draggable : true,
-              raiseOnDrag : false
-            });
+            vertex = point.ghostMarker;
             
-            google.maps.event.addListener(vertex, "mouseover", vertexGhostMouseOver);
-            google.maps.event.addListener(vertex, "mouseout", vertexGhostMouseOut);
-            google.maps.event.addListener(vertex, "drag", vertexGhostDrag);
-            google.maps.event.addListener(vertex, "dragend", vertexGhostDragEnd);
+            if (!vertex){
+              vertex = new google.maps.Marker({
+                map: self.getMap(),
+                icon: imgGhostVertex,
+                draggable: true,
+                raiseOnDrag: false
+              });
+
+              google.maps.event.addListener(vertex, "mouseover", vertexGhostMouseOver);
+              google.maps.event.addListener(vertex, "mouseout", vertexGhostMouseOut);
+              google.maps.event.addListener(vertex, "drag", vertexGhostDrag);
+              google.maps.event.addListener(vertex, "dragend", vertexGhostDragEnd);
+
+              point.ghostMarker = vertex;
+              vertex.marker = point.marker;
+            }
             
-            point.ghostMarker = vertex;
-            vertex.marker = point.marker;
+            vertex.setPosition(position);
+
             return vertex;
           }
           return null;
         }
       }
+      
       var imgVertex = new google.maps.MarkerImage(
-        'css/vertex.png',
+        cssFolder + 'vertex.png',
         new google.maps.Size(11, 11), 
         new google.maps.Point(0, 0),
         new google.maps.Point(6, 6)
       );
 
-      var imgVertexOver = new google.maps.MarkerImage('css/vertexOver.png',
+      var imgVertexOver = new google.maps.MarkerImage(
+        cssFolder + 'vertexOver.png',
         new google.maps.Size(11, 11), 
         new google.maps.Point(0, 0),
         new google.maps.Point(6, 6)
@@ -259,20 +267,27 @@
       }
 
       function createMarkerVertex(point) {
-        var vertex = new google.maps.Marker({
-          position : point,
-          map : self.getMap(),
-          icon : imgVertex,
-          draggable : true,
-          raiseOnDrag : false
-        });
+        var vertex = point.marker;
         
-        google.maps.event.addListener(vertex, "mouseover", vertexMouseOver);
-        google.maps.event.addListener(vertex, "mouseout", vertexMouseOut);
-        google.maps.event.addListener(vertex, "drag", vertexDrag);
-        google.maps.event.addListener(vertex, "rightclick", vertexRightClick);
-        
-        point.marker = vertex;
+        if (!vertex){
+          vertex = new google.maps.Marker({
+            position: point,
+            map: self.getMap(),
+            icon: imgVertex,
+            draggable: true,
+            raiseOnDrag: false
+          });
+          
+          google.maps.event.addListener(vertex, "mouseover", vertexMouseOver);
+          google.maps.event.addListener(vertex, "mouseout", vertexMouseOut);
+          google.maps.event.addListener(vertex, "drag", vertexDrag);
+          google.maps.event.addListener(vertex, "rightclick", vertexRightClick);
+          
+          point.marker = vertex;
+        }
+
+        vertex.setPosition(point);
+
         return vertex;
       }
 
