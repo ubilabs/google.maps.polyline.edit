@@ -29,8 +29,8 @@
  *        stopEdit()
  */
 
-(function(){
-  if (typeof(google.maps.Polyline.prototype.runEdit) === "undefined") {
+(function(undefined){
+  if (google.maps.Polyline.prototype.runEdit === undefined) {
     /**
      * Starts editing the polyline. Optional parameter <code>ghosts</code>
      * indicates the use of ghost markers in the middle of each segment. By
@@ -40,7 +40,7 @@
      *   ghosts - (true) include additional points in the middle of each segment
      */
     google.maps.Polyline.prototype.runEdit = function (ghosts) {
-      if (typeof ghosts === "undefined") {
+      if (ghosts === undefined) {
         ghosts = true;
       }
       var self = this;
@@ -88,8 +88,8 @@
         function moveGhostMarkers(marker) {
           var vertex = self.getPath().getAt(marker.inex);
           var prevVertex = self.getPath().getAt(marker.inex - 1);
-          if ((typeof(vertex) !== "undefined") && (typeof(vertex.ghostMarker) !== "undefined")) {
-            if (typeof(google.maps.geometry) === "undefined") {
+          if ((vertex !== undefined) && (vertex.ghostMarker !== undefined)) {
+            if (google.maps.geometry === undefined) {
               vertex.ghostMarker.setPosition(
                 new google.maps.LatLng(
                   vertex.lat() + 0.5 * (self.getPath().getAt(marker.inex + 1).lat() - vertex.lat()), vertex.lng() + 0.5 * (self.getPath().getAt(marker.inex + 1).lng() - vertex.lng())
@@ -105,8 +105,8 @@
               );
             }
           }
-          if ((typeof(prevVertex) !== "undefined") && (typeof(prevVertex.ghostMarker) !== "undefined")) {
-            if (typeof(google.maps.geometry) === "undefined") {
+          if ((prevVertex !== undefined) && (prevVertex.ghostMarker !== undefined)) {
+            if (google.maps.geometry === undefined) {
               prevVertex.ghostMarker.setPosition(
                 new google.maps.LatLng(
                   prevVertex.lat() + 0.5 * (marker.getPosition().lat() - prevVertex.lat()), 
@@ -143,7 +143,7 @@
         function createGhostMarkerVertex(point) {
           if (point.marker.inex < self.getPath().getLength() - 1) {
             var markerGhostVertex = new google.maps.Marker({
-              position : (typeof(google.maps.geometry) === "undefined") ? new google.maps.LatLng(
+              position : (google.maps.geometry === undefined) ? new google.maps.LatLng(
                 point.lat() + 0.5 * (self.getPath().getAt(point.marker.inex + 1).lat() - point.lat()),
                 point.lng() + 0.5 * (self.getPath().getAt(point.marker.inex + 1).lng() - point.lng())
               ) : google.maps.geometry.spherical.interpolate(point, self.getPath().getAt(point.marker.inex + 1), 0.5),
@@ -196,11 +196,11 @@
         if (ghosts) {
           var vertex = self.getPath().getAt(this.inex);
           var prevVertex = self.getPath().getAt(this.inex - 1);
-          if (typeof(vertex.ghostMarker) !== "undefined") {
+          if (vertex.ghostMarker !== undefined) {
             vertex.ghostMarker.setMap(null);
           }
           self.getPath().removeAt(this.inex);
-          if (typeof(prevVertex) !== "undefined") {
+          if (prevVertex !== undefined) {
             if (this.inex < self.getPath().getLength()) {
               moveGhostMarkers(prevVertex.marker);
             }
@@ -249,7 +249,7 @@
     };
   }
 
-  if (typeof(google.maps.Polyline.prototype.stopEdit) === "undefined") {
+  if (google.maps.Polyline.prototype.stopEdit === undefined) {
     /**
      * Stops editing polyline
     */
@@ -266,5 +266,4 @@
       });
     };
   }
-})()
- 
+})();
