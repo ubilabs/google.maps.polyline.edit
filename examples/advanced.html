@@ -13,6 +13,7 @@
     function initialize(){
       map = new google.maps.Map(document.getElementById("map"), {
         zoom: 14,
+        scrollwheel: false,
         center: new google.maps.LatLng(50.909528, 34.811726),
         mapTypeId: google.maps.MapTypeId.ROADMAP
       });
@@ -29,17 +30,23 @@
           new google.maps.LatLng(50.909365, 34.8288063)
         ]
       });
+      
+      // start editing the polyline
+      polyline.edit();
     }
     
-    // start edit mode with given "ghost" parameter
+    // start edit mode with given "ghost" option
     function startEdit(){
-      var ghosts = document.getElementById("ghosts").checked;
-      polyline.runEdit(ghosts);
+      var options = {
+        ghosts: document.getElementById("ghosts").checked
+      }
+      
+      polyline.edit(true, options);
     }
     
     // stop edit mode
     function stopEdit(){
-      polyline.stopEdit();
+      polyline.edit(false);
     }
     
     // toggle ghosts in edit mode 
@@ -64,7 +71,6 @@
   
   <div id="map" style="height:500px"></div>
 
-  
   <h2>HTML</h2>
   
   <pre class="prettyprint lang-html">
@@ -101,19 +107,25 @@ function initialize(){
       new google.maps.LatLng(50.909365, 34.8288063)
     ]
   });
+  
+  // start editing the polyline
+  polyline.edit();
 };</pre>
   
     <pre class="prettyprint lang-javascript">
-// start edit mode with given "ghost" parameter
+// start edit mode with given "ghost" option
 function startEdit(){
-  var ghosts = document.getElementById("ghosts").checked;
-  polyline.runEdit(ghosts);
+  var options = {
+    ghosts: document.getElementById("ghosts").checked
+  }
+  
+  polyline.edit(true, options);
 }</pre>
       
     <pre class="prettyprint lang-javascript">
 // stop edit mode
 function stopEdit(){
-  polyline.stopEdit();
+  polyline.edit(false);
 }</pre>
       
     <pre class="prettyprint lang-javascript">

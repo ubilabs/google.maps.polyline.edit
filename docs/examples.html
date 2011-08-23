@@ -26,7 +26,7 @@
       ]
     });
     
-    polyline.runEdit(true);
+    polyline.edit();
   }
 </script>
 <script type="text/javascript" src="http://code.google.com/js/prettify.js"></script>
@@ -36,7 +36,7 @@
   <p>
   <b>Author:</b> ryshkin@gmail.com <br />
   <b>Licence:</b> Licensed under <a href="http://opensource.org/licenses/mit-license.php">MIT</a> license.<br />
-  Extends the functionality of a class google.maps.Polyline by methods runEdit() and stopEdit()   <br />
+  Extends the functionality of a class google.maps.Polyline with edit()<br />
   Enjoy guys:)  <br />
   Special thanks Jan Pieter Waagmeester <code>jieter@jpwaag.com</code> for the idea of using the library google.maps.geometry, which performs spherical linear interpolation between the two locations.
   </p>
@@ -45,19 +45,28 @@
     <tbody>
     <tr>
     <th>Methods</th>
-    <th>Return&nbsp;Value</th>
     <th>Description</th>
     </tr>
     <tr class="odd">
-      <td><code>runEdit(ghosts?)</code></td>
-      <td><code>None</code></td>
-      <td>Starts editing polyline. Parameter <code>ghosts</code> indicates the use of ghost markers in the middle of each segment. By default, the <code>ghosts</code> is true.</td>
+      <td><code>edit(start?, options?)</code></td>
+      <td>
+        <p>
+          Starts or stops editing polyline. 
+        </p>
+        <p>
+          Optional parameter <code>start</code> indicates if to start or stop
+          editing. Default is <code>true</code>. Pass <code>false</code> to stop
+          editing. 
+        </p>
+        <p>
+        Optional parameter <code>options</code> may have a <code>ghosts</code> parameter.
+        <code>{ghosts: true}</code> <br/>
+         
+        If <code>ghosts</code> is set to <code>false</code> it will disable the ghost marker to instert 
+        new points.
+        </p>
+      </td>
     </tr>
-    <tr class="even">
-      <td><code>stopEdit()</code></td>
-      <td><code>None</code></td>
-      <td>Stops editing polyline.</td>
-      </tr>
   </tbody>
   </table>
   <br /><br />
@@ -100,11 +109,11 @@
         new google.maps.LatLng(50.909365, 34.8288063)
       ]
     });
-    polyline.runEdit(true);
+    polyline.edit();
   }</pre>
   <h4>Step 4 - Stop editing polyline</h4>
   <pre class="prettyprint lang-javascript">
-    polyline.stopEdit();</pre>
+    polyline.edit(false);</pre>
 
   <h1>A working example:</h1>
   <i>You can remove a point of the polyline by clicking the right mouse button.</i>
