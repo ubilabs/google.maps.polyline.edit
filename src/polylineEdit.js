@@ -2,12 +2,17 @@
  * @name polylineEdit for Google Maps V3 API
  * @version 1.0.1 [January 29, 2011]
  * @author: ryshkin@gmail.com
- * @fileoverview <b>Author:</b> ryshkin@gmail.com<br/> <b>Licence:</b>
+ * @fileoverview 
+ *   <b>Author:</b> ryshkin@gmail.com<br/> 
+ *   <b>Modified by:</b> Martin Kleppe kleppe@ubilabs.net <br/>
+ *   
+ *   <b>Licence:</b>
  *   Licensed under <a
  *   href="http://opensource.org/licenses/mit-license.php">MIT</a>
- *   license.<br/> This library Extends the functionality of a
- *   class google.maps.Polyline by methods runEdit() and stopEdit()<br/>
- *   Enjoy guys:)<br/>
+ *   license.<br/> 
+ * 
+ *   This library provides a google.maps.Polyline#edit() method<br/>
+
  *   Special thanks <code>Jan Pieter Waagmeester jieter@jpwaag.com</code> 
  *   for the idea of using the library google.maps.geometry , which performs 
  *   spherical linear interpolation between the two locations.
@@ -25,51 +30,42 @@
  
 /**
  * @name google.maps.Polyline
- * @class Extends standart class google.maps.Polyline by methods runEdit() and
- *        stopEdit()
+ * @class Extends standart class google.maps.Polyline by edit() method.
  */
 
 (function(undefined){
-  if (google.maps.Polyline.prototype.runEdit === undefined) {
-    /**
-     * Starts editing the polyline. Optional parameter <code>ghosts</code>
-     * indicates the use of ghost markers in the middle of each segment. By
-     * default, the <code>ghosts</code> is true.
-     * 
-     * @param {}
-     *   ghosts - (true) include additional points in the middle of each segment
-     */
-    google.maps.Polyline.prototype.runEdit = function (ghosts) {
-      if (ghosts === undefined) {
-        ghosts = true;
-      }
-      var self = this,
-        cssFolder = "../src/css/";
+  if (google.maps.Polyline.prototype.edit === undefined) {
+    function start(polyline, options) {
+  
+      options = options || {};
+      
+      options.ghosts = options.ghosts || (options.ghosts === undefined);
+      options.css = options.css || "../src/css/";
         
-      if (ghosts) {
+      if (options.ghosts) {
         var imgGhostVertex = new google.maps.MarkerImage(
-          cssFolder + 'ghostVertex.png', 
+          options.css + 'ghostVertex.png', 
           new google.maps.Size(11, 11),
           new google.maps.Point(0, 0), 
           new google.maps.Point(6, 6)
         );
 
         var imgGhostVertexOver = new google.maps.MarkerImage(
-          cssFolder + 'ghostVertexOver.png', 
+          options.css + 'ghostVertexOver.png', 
           new google.maps.Size(11, 11),
           new google.maps.Point(0, 0), 
           new google.maps.Point(6, 6)
         );
 
         var ghostPath = new google.maps.Polyline({
-          map: this.getMap(),
-          strokeColor: this.strokeColor,
+          map: polyline.getMap(),
+          strokeColor: polyline.strokeColor,
           strokeOpacity: 0.2,
-          strokeWeight: this.strokeWeight
+          strokeWeight: polyline.strokeWeight
         });
 
         function at(index){
-          return self.getPath().getAt(index);
+          return polyline.getPath().getAt(index);
         }
 
         function vertexGhostMouseOver() {
@@ -136,7 +132,7 @@
             ghostPath.getPath().pop();
           });
           
-          self.getPath().insertAt(
+          polyline.getPath().insertAt(
             this.marker.editIndex + 1, 
             this.getPosition()
           );
@@ -151,7 +147,7 @@
             at(this.marker.editIndex + 1)
           );
           
-          self.getPath().forEach(function (vertex, index) {
+          polyline.getPath().forEach(function (vertex, index) {
             if (vertex.marker) {
               vertex.marker.editIndex = index;
             }
@@ -159,7 +155,7 @@
         }
 
         function createGhostMarkerVertex(point) {
-          if (point.marker.editIndex < self.getPath().getLength() - 1) {
+          if (point.marker.editIndex < polyline.getPath().getLength() - 1) {
             var next = at(point.marker.editIndex + 1),
               position, vertex;
             
@@ -178,7 +174,7 @@
             
             if (!vertex){
               vertex = new google.maps.Marker({
-                map: self.getMap(),
+                map: polyline.getMap(),
                 icon: imgGhostVertex,
                 draggable: true,
                 raiseOnDrag: false
@@ -202,14 +198,14 @@
       }
       
       var imgVertex = new google.maps.MarkerImage(
-        cssFolder + 'vertex.png',
+        options.css + 'vertex.png',
         new google.maps.Size(11, 11), 
         new google.maps.Point(0, 0),
         new google.maps.Point(6, 6)
       );
 
       var imgVertexOver = new google.maps.MarkerImage(
-        cssFolder + 'vertexOver.png',
+        options.css + 'vertexOver.png',
         new google.maps.Size(11, 11), 
         new google.maps.Point(0, 0),
         new google.maps.Point(6, 6)
@@ -227,14 +223,14 @@
         var vertex = this.getPosition();
         vertex.marker = this;
         vertex.ghostMarker = at(this.editIndex).ghostMarker;
-        self.getPath().setAt(this.editIndex, vertex);
-        if (ghosts) {
+        polyline.getPath().setAt(this.editIndex, vertex);
+        if (options.ghosts) {
           moveGhostMarkers(this);
         }
       }
 
       function vertexRightClick() {
-        if (ghosts) {
+        if (options.ghosts) {
           var vertex = at(this.editIndex),
             previous = at(this.editIndex - 1);
             
@@ -242,10 +238,10 @@
             vertex.ghostMarker.setMap(null);
           }
           
-          self.getPath().removeAt(this.editIndex);
+          polyline.getPath().removeAt(this.editIndex);
           
           if (previous) {
-            if (this.editIndex < self.getPath().getLength()) {
+            if (this.editIndex < polyline.getPath().getLength()) {
               moveGhostMarkers(previous.marker);
             } else {
               previous.ghostMarker.setMap(null);
@@ -253,18 +249,18 @@
             }
           }
         } else {
-          self.getPath().removeAt(this.editIndex);
+          polyline.getPath().removeAt(this.editIndex);
         }
         
         this.setMap(null);
-        self.getPath().forEach(function (vertex, index) {
+        polyline.getPath().forEach(function (vertex, index) {
           if (vertex.marker) {
             vertex.marker.editIndex = index;
           }
         });
         
-        if (self.getPath().getLength() === 1) {
-          self.getPath().pop().marker.setMap(null);
+        if (polyline.getPath().getLength() === 1) {
+          polyline.getPath().pop().marker.setMap(null);
         }
       }
 
@@ -274,7 +270,7 @@
         if (!vertex){
           vertex = new google.maps.Marker({
             position: point,
-            map: self.getMap(),
+            map: polyline.getMap(),
             icon: imgVertex,
             draggable: true,
             raiseOnDrag: false
@@ -293,21 +289,16 @@
         return vertex;
       }
 
-      this.getPath().forEach(function (vertex, index) {
+      polyline.getPath().forEach(function (vertex, index) {
         createMarkerVertex(vertex).editIndex = index;
-        if (ghosts) {
+        if (options.ghosts) {
           createGhostMarkerVertex(vertex);
         }
       });
     };
-  }
-
-  if (google.maps.Polyline.prototype.stopEdit === undefined) {
-    /**
-     * Stops editing polyline
-    */
-    google.maps.Polyline.prototype.stopEdit = function () {
-      this.getPath().forEach(function (vertex, index) {
+    
+    function stop(polyline) {
+      polyline.getPath().forEach(function (vertex, index) {
         if (vertex.marker) {
           vertex.marker.setMap(null);
           vertex.marker = undefined;
@@ -318,5 +309,25 @@
         }
       });
     };
+    
+    
+    /**
+     * Starts or stops editing polyline.
+     * Optional parameter start indicates if to start or stop editing. Default is true. Pass false to stop editing.
+     * Optional parameter options may have a ghosts parameter. {ghosts: true} 
+     * If ghosts is set to false it will disable the ghost marker to instert new points.
+     */
+    google.maps.Polyline.prototype.edit = function(start_opt, options_opt){
+      if (start_opt || start_opt === undefined){
+        // remap arguments if no "start" flag was given
+        if (!options_opt && typeof start_opt === "object"){
+          options_opt = start_opt;
+        }
+        
+        start(this, options_opt);
+      } else {
+        stop(this);
+      }
+    }
   }
 })();
