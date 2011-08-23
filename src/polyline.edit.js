@@ -1,6 +1,6 @@
 /**
- * @name polylineEdit for Google Maps V3 API
- * @version 1.0.1 [January 29, 2011]
+ * @name polyline.edit for Google Maps V3 API
+ * @version 2.0.0 [August 23, 2011]
  * @author: ryshkin@gmail.com
  * @fileoverview 
  *   <b>Author:</b> ryshkin@gmail.com<br/> 
@@ -12,7 +12,7 @@
  *   license.<br/> 
  * 
  *   This library provides a google.maps.Polyline#edit() method<br/>
-
+ * 
  *   Special thanks <code>Jan Pieter Waagmeester jieter@jpwaag.com</code> 
  *   for the idea of using the library google.maps.geometry , which performs 
  *   spherical linear interpolation between the two locations.
