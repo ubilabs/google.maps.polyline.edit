@@ -34,7 +34,7 @@ if (typeof(google.maps.Polyline.prototype.runEdit) === "undefined") {
    *            segment
    */
   google.maps.Polyline.prototype.runEdit = function (flag) {
-    if (!flag) {
+    if (typeof flag === "undefined") {
       flag = true;
     }
     var self = this;
