@@ -3,14 +3,29 @@ Polyline editing for the Google Maps V3 API
 
 This library extends the `google.maps.Polyline` class by `runEdit()` and `stopEdit()`.
 
-### Usage ###
+### Basic Usage ###
 
     var polyline = new google.maps.Polyline({
-      map : map,
-      path:[...]
+      map: map,
+      path: [
+        new google.maps.LatLng(50.900651, 34.7967914),
+        new google.maps.LatLng(50.909365, 34.8288063)
+      ]
     });
+
+    polyline.edit();
+
+### Stopping an edit ###
+
+    polyline.edit(false);
+
+### Options for editing ###
+
+    var options = {
+      ghosts: document.getElementById("ghosts").checked
+    }
     
-    polyline.runEdit();
+    polyline.edit(true, options);
 
 ### Thanks ###
 
