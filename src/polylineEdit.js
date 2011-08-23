@@ -66,6 +66,10 @@
           strokeWeight : this.strokeWeight
         });
 
+        function at(index){
+          return self.getPath().getAt(index);
+        }
+
         function vertexGhostMouseOver() {
           this.setIcon(imgGhostVertexOver);
         }
@@ -79,17 +83,17 @@
             ghostPath.setPath([
               this.marker.getPosition(), 
               this.getPosition(), 
-              self.getPath().getAt(this.marker.editIndex + 1)
+              at(this.marker.editIndex + 1)
             ]);
           }  
           ghostPath.getPath().setAt(1, this.getPosition());
         }
 
         function moveGhostMarkers(marker) {
-          var vertex = self.getPath().getAt(marker.editIndex);
-          var prevVertex = self.getPath().getAt(marker.editIndex - 1);
+          var vertex = at(marker.editIndex);
+          var previous = at(marker.editIndex - 1);
           if ((vertex !== undefined) && (vertex.ghostMarker !== undefined)) {
-            var next = self.getPath().getAt(marker.editIndex + 1);
+            var next = at(marker.editIndex + 1);
             if (google.maps.geometry === undefined) {
               vertex.ghostMarker.setPosition(
                 new google.maps.LatLng(
@@ -105,18 +109,18 @@
               );
             }
           }
-          if ((prevVertex !== undefined) && (prevVertex.ghostMarker !== undefined)) {
+          if ((previous !== undefined) && (previous.ghostMarker !== undefined)) {
             if (google.maps.geometry === undefined) {
-              prevVertex.ghostMarker.setPosition(
+              previous.ghostMarker.setPosition(
                 new google.maps.LatLng(
-                  prevVertex.lat() + 0.5 * (marker.getPosition().lat() - prevVertex.lat()), 
-                  prevVertex.lng() + 0.5 * (marker.getPosition().lng() - prevVertex.lng())
+                  previous.lat() + 0.5 * (marker.getPosition().lat() - previous.lat()), 
+                  previous.lng() + 0.5 * (marker.getPosition().lng() - previous.lng())
                 )
               );
             } else {
-              prevVertex.ghostMarker.setPosition(
+              previous.ghostMarker.setPosition(
                 google.maps.geometry.spherical.interpolate(
-                  prevVertex, 
+                  previous, 
                   marker.getPosition(), 
                   0.5
                 )
@@ -136,13 +140,13 @@
           );
           
           createMarkerVertex(
-            self.getPath().getAt(this.marker.editIndex + 1)
+            at(this.marker.editIndex + 1)
           ).editIndex = this.marker.editIndex + 1;
           
           moveGhostMarkers(this.marker);
           
           createGhostMarkerVertex(
-            self.getPath().getAt(this.marker.editIndex + 1)
+            at(this.marker.editIndex + 1)
           );
           
           self.getPath().forEach(function (vertex, index) {
@@ -154,7 +158,7 @@
 
         function createGhostMarkerVertex(point) {
           if (point.marker.editIndex < self.getPath().getLength() - 1) {
-            var next = self.getPath().getAt(point.marker.editIndex + 1);
+            var next = at(point.marker.editIndex + 1);
             var position;
             
             if (google.maps.geometry === undefined) {
@@ -212,7 +216,7 @@
       function vertexDrag() {
         var vertex = this.getPosition();
         vertex.marker = this;
-        vertex.ghostMarker = self.getPath().getAt(this.editIndex).ghostMarker;
+        vertex.ghostMarker = at(this.editIndex).ghostMarker;
         self.getPath().setAt(this.editIndex, vertex);
         if (ghosts) {
           moveGhostMarkers(this);
@@ -221,8 +225,8 @@
 
       function vertexRightClick() {
         if (ghosts) {
-          var vertex = self.getPath().getAt(this.editIndex),
-            prevVertex = self.getPath().getAt(this.editIndex - 1);
+          var vertex = at(this.editIndex),
+            previous = at(this.editIndex - 1);
             
           if (vertex.ghostMarker !== undefined) {
             vertex.ghostMarker.setMap(null);
@@ -230,12 +234,12 @@
           
           self.getPath().removeAt(this.editIndex);
           
-          if (prevVertex !== undefined) {
+          if (previous !== undefined) {
             if (this.editIndex < self.getPath().getLength()) {
-              moveGhostMarkers(prevVertex.marker);
+              moveGhostMarkers(previous.marker);
             } else {
-              prevVertex.ghostMarker.setMap(null);
-              prevVertex.ghostMarker = undefined;
+              previous.ghostMarker.setMap(null);
+              previous.ghostMarker = undefined;
             }
           }
         } else {
