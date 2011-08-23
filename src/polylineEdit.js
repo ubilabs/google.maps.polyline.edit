@@ -25,20 +25,20 @@
  */
 if (typeof(google.maps.Polyline.prototype.runEdit) === "undefined") {
   /**
-   * Starts editing the polyline. Optional parameter <code>flag</code>
+   * Starts editing the polyline. Optional parameter <code>ghosts</code>
    * indicates the use of ghost markers in the middle of each segment. By
-   * default, the <code>flag</code> is true.
+   * default, the <code>ghosts</code> is true.
    * 
    * @param {}
-   *            flag - (true) include additional points in the middle of each
+   *            ghosts - (true) include additional points in the middle of each
    *            segment
    */
-  google.maps.Polyline.prototype.runEdit = function (flag) {
-    if (typeof flag === "undefined") {
-      flag = true;
+  google.maps.Polyline.prototype.runEdit = function (ghosts) {
+    if (typeof ghosts === "undefined") {
+      ghosts = true;
     }
     var self = this;
-    if (flag) {
+    if (ghosts) {
       var imgGhostVertex = new google.maps.MarkerImage(
                 'css/ghostVertex.png', new google.maps.Size(11, 11),
                 new google.maps.Point(0, 0), new google.maps.Point(6, 6));
@@ -135,12 +135,12 @@ if (typeof(google.maps.Polyline.prototype.runEdit) === "undefined") {
       movedVertex.marker = this;
       movedVertex.ghostMarker = self.getPath().getAt(this.inex).ghostMarker;
       self.getPath().setAt(this.inex, movedVertex);
-      if (flag) {
+      if (ghosts) {
         moveGhostMarkers(this);
       }
     };
     var vertexRightClick = function () {
-      if (flag) {
+      if (ghosts) {
         var Vertex = self.getPath().getAt(this.inex);
         var prevVertex = self.getPath().getAt(this.inex - 1);
         if (typeof(Vertex.ghostMarker) !== "undefined") {
@@ -187,7 +187,7 @@ if (typeof(google.maps.Polyline.prototype.runEdit) === "undefined") {
     };
     this.getPath().forEach(function (vertex, inex) {
       createMarkerVertex(vertex).inex = inex;
-      if (flag) {
+      if (ghosts) {
         createGhostMarkerVertex(vertex);
       }
     });
