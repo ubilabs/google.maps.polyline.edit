@@ -230,26 +230,24 @@
       }
 
       function vertexRightClick() {
-        if (options.ghosts) {
-          var vertex = at(this.editIndex),
-            previous = at(this.editIndex - 1);
-            
-          if (vertex.ghostMarker) {
-            vertex.ghostMarker.setMap(null);
-          }
+        if (!options.ghosts){ return; }
+        
+        var vertex = at(this.editIndex),
+          previous = at(this.editIndex - 1);
           
-          polyline.getPath().removeAt(this.editIndex);
-          
-          if (previous) {
-            if (this.editIndex < polyline.getPath().getLength()) {
-              moveGhostMarkers(previous.marker);
-            } else {
-              previous.ghostMarker.setMap(null);
-              previous.ghostMarker = undefined;
-            }
+        if (vertex.ghostMarker) {
+          vertex.ghostMarker.setMap(null);
+        }
+        
+        polyline.getPath().removeAt(this.editIndex);
+        
+        if (previous) {
+          if (this.editIndex < polyline.getPath().getLength()) {
+            moveGhostMarkers(previous.marker);
+          } else {
+            previous.ghostMarker.setMap(null);
+            previous.ghostMarker = undefined;
           }
-        } else {
-          polyline.getPath().removeAt(this.editIndex);
         }
         
         this.setMap(null);
