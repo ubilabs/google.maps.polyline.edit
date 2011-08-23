@@ -1,0 +1,126 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" type="text/css" href="http://code.google.com/css/codesite.css"></link>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=geometry&amp;sensor=false"></script>
+  <script type="text/javascript" src="../src/polylineEdit.js"></script>
+  <script type="text/javascript">
+  
+    var map, polyline;
+  
+    // create map and polyline
+    function initialize(){
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 14,
+        center: new google.maps.LatLng(50.909528, 34.811726),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      });
+    
+      polyline = new google.maps.Polyline({
+        map: map,
+        strokeColor: '#ff0000',
+        strokeOpacity: 0.6,
+        strokeWeight: 4,
+        path: [
+          new google.maps.LatLng(50.900651, 34.7967914),
+          new google.maps.LatLng(50.907525, 34.8094085),
+          new google.maps.LatLng(50.905631, 34.8217681),
+          new google.maps.LatLng(50.909365, 34.8288063)
+        ]
+      });
+    }
+    
+    // start edit mode with given "ghost" parameter
+    function startEdit(){
+      var ghosts = document.getElementById("ghosts").checked;
+      polyline.runEdit(ghosts);
+    }
+    
+    // stop edit mode
+    function stopEdit(){
+      polyline.stopEdit();
+    }
+    
+    // toggle ghosts in edit mode 
+    function toggleGhosts(){
+      stopEdit();
+      startEdit();
+    }
+    
+  </script>
+  <script type="text/javascript" src="http://code.google.com/js/prettify.js"></script>
+</head>
+<body onload="prettyPrint();initialize();">
+  <h1>Advanced Example</h1>
+  
+  <a href="#" onclick="startEdit()">Start editing</a>
+  <a href="#" onclick="stopEdit()">Stop editing</a>
+  
+  <label>
+    <input type="checkbox" id="ghosts" onchange="toggleGhosts();"/>
+    Show ghosts
+  </label>
+  
+  <div id="map" style="height:500px"></div>
+
+  
+  <h2>HTML</h2>
+  
+  <pre class="prettyprint lang-html">
+&lt;a href=&quot;#&quot; onclick=&quot;startEdit()&quot;&gt;Start editing&lt;/a&gt;
+&lt;a href=&quot;#&quot; onclick=&quot;stopEdit()&quot;&gt;Stop editing&lt;/a&gt;
+&lt;label&gt;
+  &lt;input type=&quot;checkbox&quot; id=&quot;ghosts&quot; onchange=&quot;toggleGhosts();&quot;/&gt;
+  Show ghosts
+&lt;/label&gt;
+&lt;div id=&quot;map&quot; style=&quot;height:500px&quot;&gt;&lt;/div&gt;</pre>
+  
+  <h2>JavaScript</h2>
+    
+  <pre class="prettyprint lang-javascript">
+var map, polyline;
+
+// create map and polyline
+function initialize(){
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 14,
+    center: new google.maps.LatLng(50.909528, 34.811726),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+
+  polyline = new google.maps.Polyline({
+    map: map,
+    strokeColor: '#ff0000',
+    strokeOpacity: 0.6,
+    strokeWeight: 4,
+    path: [
+      new google.maps.LatLng(50.900651, 34.7967914),
+      new google.maps.LatLng(50.907525, 34.8094085),
+      new google.maps.LatLng(50.905631, 34.8217681),
+      new google.maps.LatLng(50.909365, 34.8288063)
+    ]
+  });
+};</pre>
+  
+    <pre class="prettyprint lang-javascript">
+// start edit mode with given "ghost" parameter
+function startEdit(){
+  var ghosts = document.getElementById("ghosts").checked;
+  polyline.runEdit(ghosts);
+}</pre>
+      
+    <pre class="prettyprint lang-javascript">
+// stop edit mode
+function stopEdit(){
+  polyline.stopEdit();
+}</pre>
+      
+    <pre class="prettyprint lang-javascript">
+// toggle ghosts in edit mode 
+function toggleGhosts(){
+  stopEdit();
+  startEdit();
+}</pre>
+</body>
+</html>

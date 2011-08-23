@@ -43,17 +43,19 @@
       if (ghosts === undefined) {
         ghosts = true;
       }
-      var self = this;
+      var self = this,
+        cssFolder = "../src/css/";
+        
       if (ghosts) {
         var imgGhostVertex = new google.maps.MarkerImage(
-          'css/ghostVertex.png', 
+          cssFolder + 'ghostVertex.png', 
           new google.maps.Size(11, 11),
           new google.maps.Point(0, 0), 
           new google.maps.Point(6, 6)
         );
 
         var imgGhostVertexOver = new google.maps.MarkerImage(
-          'css/ghostVertexOver.png', 
+          cssFolder + 'ghostVertexOver.png', 
           new google.maps.Size(11, 11),
           new google.maps.Point(0, 0), 
           new google.maps.Point(6, 6)
