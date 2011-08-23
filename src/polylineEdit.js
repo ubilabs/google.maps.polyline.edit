@@ -90,11 +90,12 @@
         }
 
         function moveGhostMarkers(marker) {
-          var vertex = at(marker.editIndex);
-          var previous = at(marker.editIndex - 1);
-          if ((vertex !== undefined) && (vertex.ghostMarker !== undefined)) {
-            var next = at(marker.editIndex + 1);
-            if (google.maps.geometry === undefined) {
+          var vertex = at(marker.editIndex),
+            previous = at(marker.editIndex - 1),
+            next = at(marker.editIndex + 1);
+          
+          if (vertex && vertex.ghostMarker) {
+            if (!google.maps.geometry) {
               vertex.ghostMarker.setPosition(
                 new google.maps.LatLng(
                   vertex.lat() + 0.5 * (next.lat() - vertex.lat()), 
@@ -109,8 +110,8 @@
               );
             }
           }
-          if ((previous !== undefined) && (previous.ghostMarker !== undefined)) {
-            if (google.maps.geometry === undefined) {
+          if (previous && previous.ghostMarker) {
+            if (!google.maps.geometry) {
               previous.ghostMarker.setPosition(
                 new google.maps.LatLng(
                   previous.lat() + 0.5 * (marker.getPosition().lat() - previous.lat()), 
@@ -161,7 +162,7 @@
             var next = at(point.marker.editIndex + 1);
             var position;
             
-            if (google.maps.geometry === undefined) {
+            if (!google.maps.geometry) {
               position = new google.maps.LatLng(
                 point.lat() + 0.5 * (next.lat() - point.lat()),
                 point.lng() + 0.5 * (next.lng() - point.lng())
@@ -228,13 +229,13 @@
           var vertex = at(this.editIndex),
             previous = at(this.editIndex - 1);
             
-          if (vertex.ghostMarker !== undefined) {
+          if (vertex.ghostMarker) {
             vertex.ghostMarker.setMap(null);
           }
           
           self.getPath().removeAt(this.editIndex);
           
-          if (previous !== undefined) {
+          if (previous) {
             if (this.editIndex < self.getPath().getLength()) {
               moveGhostMarkers(previous.marker);
             } else {
