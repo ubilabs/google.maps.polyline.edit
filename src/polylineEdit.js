@@ -60,10 +60,10 @@
         );
 
         var ghostPath = new google.maps.Polyline({
-          map : this.getMap(),
-          strokeColor : this.strokeColor,
-          strokeOpacity : 0.2,
-          strokeWeight : this.strokeWeight
+          map: this.getMap(),
+          strokeColor: this.strokeColor,
+          strokeOpacity: 0.2,
+          strokeWeight: this.strokeWeight
         });
 
         function at(index){
@@ -92,7 +92,8 @@
         function moveGhostMarkers(marker) {
           var vertex = at(marker.editIndex),
             previous = at(marker.editIndex - 1),
-            next = at(marker.editIndex + 1);
+            next = at(marker.editIndex + 1),
+            position = marker.getPosition();
           
           if (vertex && vertex.ghostMarker) {
             if (!google.maps.geometry) {
@@ -114,16 +115,14 @@
             if (!google.maps.geometry) {
               previous.ghostMarker.setPosition(
                 new google.maps.LatLng(
-                  previous.lat() + 0.5 * (marker.getPosition().lat() - previous.lat()), 
-                  previous.lng() + 0.5 * (marker.getPosition().lng() - previous.lng())
+                  previous.lat() + 0.5 * (position.lat() - previous.lat()), 
+                  previous.lng() + 0.5 * (position.lng() - previous.lng())
                 )
               );
             } else {
               previous.ghostMarker.setPosition(
                 google.maps.geometry.spherical.interpolate(
-                  previous, 
-                  marker.getPosition(), 
-                  0.5
+                  previous, position, 0.5
                 )
               );
             }
@@ -159,8 +158,8 @@
 
         function createGhostMarkerVertex(point) {
           if (point.marker.editIndex < self.getPath().getLength() - 1) {
-            var next = at(point.marker.editIndex + 1);
-            var position;
+            var next = at(point.marker.editIndex + 1),
+              position, vertex;
             
             if (!google.maps.geometry) {
               position = new google.maps.LatLng(
@@ -173,7 +172,7 @@
               );
             }
                         
-            var vertex = new google.maps.Marker({
+            vertex = new google.maps.Marker({
               position : position,
               map : self.getMap(),
               icon : imgGhostVertex,
