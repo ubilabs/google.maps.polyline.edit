@@ -13,8 +13,8 @@ This library adds an `edit` method to the `google.maps.Polyline` class. When the
 var polyline = new google.maps.Polyline({
   map: map,
   path: [
-    new google.maps.LatLng(50.900651, 34.7967914),
-    new google.maps.LatLng(50.909365, 34.8288063)
+    new google.maps.LatLng(40.77153,-73.97722),
+    new google.maps.LatLng(40.77803,-73.96657)
   ]
 });
 
@@ -50,7 +50,7 @@ polyline.edit(true, options);
 While in edit mode events are fired while interacting with the polyline.
 
 * `edit_start` - Editing was enabled.
-* `edit_end` - Editing was disabled.
+* `edit_end` - Editing was disabled. Passes the new `path`.
 * `update_at` - A point was edited. Passes `index` and `position`
 * `insert_at` - A point was added. Passes `index` and `position`
 * `remove_at` - A point was deleted. Passes `index` and `position`
@@ -65,8 +65,14 @@ google.maps.event.addListener(polyline, 'edit_start', function(){
 });
 
 // when editing in finished
-google.maps.event.addListener(polyline, 'edit_end', function(){
-  log("[edit_end]");
+google.maps.event.addListener(polyline, 'edit_end', function(path){
+  var coords = [];
+  
+  path.forEach(function(position){ 
+    coords.push(position.toUrlValue(5));
+  });
+  
+  log("[edit_end]   path: " + coords.join(" | "));
 });
 
 // when a single point has been moved

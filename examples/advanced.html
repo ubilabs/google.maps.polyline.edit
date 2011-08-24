@@ -68,8 +68,14 @@
       });
       
       // when editing in finished
-      google.maps.event.addListener(polyline, 'edit_end', function(){
-        log("[edit_end]");
+      google.maps.event.addListener(polyline, 'edit_end', function(path){
+        var coords = [];
+        
+        path.forEach(function(position){ 
+          coords.push(position.toUrlValue(5));
+        });
+        
+        log("[edit_end]   path: " + coords.join(" | "));
       });
       
       // when a single point has been moved
@@ -188,8 +194,14 @@ function addListeners(){
   });
   
   // when editing in finished
-  google.maps.event.addListener(polyline, 'edit_end', function(){
-    log("[edit_end]");
+  google.maps.event.addListener(polyline, 'edit_end', function(path){
+    var coords = [];
+    
+    path.forEach(function(position){ 
+      coords.push(position.toUrlValue(5));
+    });
+    
+    log("[edit_end]   path: " + coords.join(" | "));
   });
   
   // when a single point has been moved

@@ -324,7 +324,7 @@
         }
       });
       
-      google.maps.event.trigger(polyline, 'edit_end');      
+      google.maps.event.trigger(polyline, 'edit_end', polyline.getPath());      
     };
     
     
