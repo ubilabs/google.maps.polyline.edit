@@ -1,7 +1,7 @@
 Polyline editing for the Google Maps V3 API
 ===========================================
 
-This library adds an `edit` method to the `google.maps.Polyline` class. When the polyline is in edit mode it shows up draggable markers for every point. By default you will also see transparent "ghost" markers. Click and drag them to add new points to the polyline.
+This library adds an `edit` method to the `google.maps.Polyline` class. When the polyline is in edit mode it shows up draggable markers for every point. Right clicking an existing marker will remove it. By default you will see transparent "ghost" markers. Click and drag them to add new points to the polyline. 
 
 
 ![Screenshot](https://github.com/ubilabs/google.maps.polyline.edit/raw/master/screenshot.png)
