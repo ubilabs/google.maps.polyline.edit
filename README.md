@@ -56,6 +56,7 @@ Example:
 
 ```javascript
 
+// when editing started
 google.maps.event.addListener(polyline, 'edit_start', function(){
   log("[edit_start]");
 });
