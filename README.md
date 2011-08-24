@@ -1,7 +1,10 @@
 Polyline editing for the Google Maps V3 API
 ===========================================
 
-This library adds a `edit` method to the `google.maps.Polyline` class. When the polyline is in edit mode it shows up draggable markers for every point. By default you will also see transparent "ghost" markers. Click and drag them to add new points to the polyline.
+This library adds an `edit` method to the `google.maps.Polyline` class. When the polyline is in edit mode it shows up draggable markers for every point. By default you will also see transparent "ghost" markers. Click and drag them to add new points to the polyline.
+
+
+![Screenshot](https://github.com/ubilabs/google.maps.polyline.edit/raw/master/docs/screenshot.png)
 
 ### Basic Usage ###
 
@@ -85,9 +88,7 @@ google.maps.event.addListener(polyline, 'remove_at', function(index, position){
 
 ### Thanks ###
 
-[Origial work](http://www.mistechko.sumy.ua/jscript/google/map/polylineEdit/docs/reference.html) is done by [Dmitry Ryshkin](mailto:ryshkin@gmail.com).
-
-Special thanks [Jan Pieter Waagmeester](mailto:jieter@jpwaag.com) for the idea of using the library google.maps.geometry, which performs spherical linear interpolation between the two locations.
+[Origial work](http://www.mistechko.sumy.ua/jscript/google/map/polylineEdit/docs/reference.html) is done by [Dmitry Ryshkin](mailto:ryshkin@gmail.com). Special thanks [Jan Pieter Waagmeester](mailto:jieter@jpwaag.com) for the idea of using the library google.maps.geometry, which performs spherical linear interpolation between the two locations.
 
 ### License ###
 
