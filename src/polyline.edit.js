@@ -40,18 +40,18 @@
       options = options || {};
       
       options.ghosts = options.ghosts || (options.ghosts === undefined);
-      options.css = options.css || "../src/css/";
-        
+      options.imagePath = options.imagePath || google.maps.Polyline.prototype.edit.settings.imagePath;
+      
       if (options.ghosts) {
         var imgGhostVertex = new google.maps.MarkerImage(
-          options.css + 'ghostVertex.png', 
+          options.imagePath + 'ghostVertex.png', 
           new google.maps.Size(11, 11),
           new google.maps.Point(0, 0), 
           new google.maps.Point(6, 6)
         );
 
         var imgGhostVertexOver = new google.maps.MarkerImage(
-          options.css + 'ghostVertexOver.png', 
+          options.imagePath + 'ghostVertexOver.png', 
           new google.maps.Size(11, 11),
           new google.maps.Point(0, 0), 
           new google.maps.Point(6, 6)
@@ -198,14 +198,14 @@
       }
       
       var imgVertex = new google.maps.MarkerImage(
-        options.css + 'vertex.png',
+        options.imagePath + 'vertex.png',
         new google.maps.Size(11, 11), 
         new google.maps.Point(0, 0),
         new google.maps.Point(6, 6)
       );
 
       var imgVertexOver = new google.maps.MarkerImage(
-        options.css + 'vertexOver.png',
+        options.imagePath + 'vertexOver.png',
         new google.maps.Size(11, 11), 
         new google.maps.Point(0, 0),
         new google.maps.Point(6, 6)
@@ -345,6 +345,10 @@
       } else {
         stop(this);
       }
+    }
+    
+    google.maps.Polyline.prototype.edit.settings = {
+      imagePath: "../src/images/"
     }
   }
 })();

@@ -92,6 +92,32 @@ google.maps.event.addListener(polyline, 'remove_at', function(index, position){
 
 ```
 
+### Marker images ###
+
+**Note:** This class uses several marker images in edit mode. 
+
+* ![GhostVertex](https://github.com/ubilabs/google.maps.polyline.edit/tree/master/src/images/ghostVertex.png) - ghostVertex.png
+* ![GhostVertexOver](https://github.com/ubilabs/google.maps.polyline.edit/tree/master/src/images/ghostVertexOver.png) - ghostVertexOver.png
+* ![Vertex](https://github.com/ubilabs/google.maps.polyline.edit/tree/master/src/images/vertex.png) - vertex.png
+* ![VertexOver](https://github.com/ubilabs/google.maps.polyline.edit/tree/master/src/images/vertexOver.png) - vertexOver.png
+
+By default it looks for those images in "[../src/images/](https://github.com/ubilabs/google.maps.polyline.edit/tree/master/src/images/)". 
+
+You can override this settings globally:
+
+```javascript
+google.maps.Polyline.prototype.edit.settings.imagePath = "/myImages/polyline/" 
+```
+
+or you can pass the `imagePath` option to the `edit` call:
+
+```javascript
+polyline.edit(true, {
+  imagePath: "/myImages/polyline/"
+}); 
+```
+
+
 ### Thanks ###
 
 [Origial work](http://www.mistechko.sumy.ua/jscript/google/map/polylineEdit/docs/reference.html) is done by [Dmitry Ryshkin](mailto:ryshkin@gmail.com). Special thanks [Jan Pieter Waagmeester](mailto:jieter@jpwaag.com) for the idea of using the library google.maps.geometry, which performs spherical linear interpolation between the two locations.
