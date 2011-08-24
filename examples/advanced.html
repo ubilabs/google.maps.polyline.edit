@@ -1,0 +1,224 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" type="text/css" href="http://code.google.com/css/codesite.css"></link>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=geometry&amp;sensor=false"></script>
+  <script type="text/javascript" src="../src/polyline.edit.js"></script>
+  <script type="text/javascript">
+  
+    var map, polyline;
+  
+    // create map and polyline
+    function initialize(){
+      map = new google.maps.Map(document.getElementById("map"), {
+        zoom: 15,
+        scrollwheel: false,
+        center: new google.maps.LatLng(40.77333,-73.9723),
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      });
+    
+      polyline = new google.maps.Polyline({
+        map: map,
+        strokeColor: '#ff0000',
+        strokeOpacity: 0.6,
+        strokeWeight: 4,
+        path: [  
+          new google.maps.LatLng(40.77153,-73.97722),
+          new google.maps.LatLng(40.76891,-73.97286),
+          new google.maps.LatLng(40.77273,-73.96859),
+          new google.maps.LatLng(40.77803,-73.96657)
+        ]
+      });
+      
+      addListeners();
+      
+      // start editing the polyline
+      polyline.edit();
+    }
+    
+    function log(message){
+      document.getElementById("console").innerHTML = message;
+    }
+    
+    // start edit mode with given "ghost" option
+    function startEdit(){
+      var options = {
+        ghosts: document.getElementById("ghosts").checked
+      }
+      
+      polyline.edit(true, options);
+    }
+    
+    // stop edit mode
+    function stopEdit(){
+      polyline.edit(false);
+    }
+    
+    // toggle ghosts in edit mode 
+    function toggleGhosts(){
+      stopEdit();
+      startEdit();
+    }
+    
+    function addListeners(){
+      // when editing started
+      google.maps.event.addListener(polyline, 'edit_start', function(){
+        log("[edit_start]");
+      });
+      
+      // when editing in finished
+      google.maps.event.addListener(polyline, 'edit_end', function(path){
+        var coords = [];
+        
+        path.forEach(function(position){ 
+          coords.push(position.toUrlValue(5));
+        });
+        
+        log("[edit_end]   path: " + coords.join(" | "));
+      });
+      
+      // when a single point has been moved
+      google.maps.event.addListener(polyline, 'update_at', function(index, position){
+        log("[update_at]  index: " +  index +  " position: " + position);
+      });
+      
+      // when a new point has been added
+      google.maps.event.addListener(polyline, 'insert_at', function(index, position){
+        log("[insert_at]  index: " +  index +  " position: " + position);
+      });
+      
+      // when a point was deleted
+      google.maps.event.addListener(polyline, 'remove_at', function(index, position){
+        log("[remove_at]  index: " +  index +  " position: " + position);
+      });
+    }
+    
+  </script>
+  <script type="text/javascript" src="http://code.google.com/js/prettify.js"></script>
+</head>
+<body onload="prettyPrint();initialize();">
+  <h1>Advanced Example</h1>
+  
+  <a href="#" onclick="startEdit()">Start editing</a>
+  <a href="#" onclick="stopEdit()">Stop editing</a>
+  
+  <label>
+    <input type="checkbox" id="ghosts" onchange="toggleGhosts();" checked="checked"/>
+    Show ghosts
+  </label>
+  
+  <div id="map" style="height:500px"></div>
+
+  <h2>Debug console</h2>
+
+  <pre id="console"></pre>
+
+  <h2>HTML</h2>
+  
+<pre class="prettyprint lang-html">
+&lt;a href=&quot;#&quot; onclick=&quot;startEdit()&quot;&gt;Start editing&lt;/a&gt;
+&lt;a href=&quot;#&quot; onclick=&quot;stopEdit()&quot;&gt;Stop editing&lt;/a&gt;
+&lt;label&gt;
+  &lt;input type=&quot;checkbox&quot; id=&quot;ghosts&quot; onchange=&quot;toggleGhosts();&quot;/&gt;
+  Show ghosts
+&lt;/label&gt;
+&lt;div id=&quot;map&quot; style=&quot;height:500px&quot;&gt;&lt;/div&gt;
+&lt;pre id="console"&gt;&lt;/pre&gt;</pre>
+  <h2>JavaScript</h2>
+    
+<pre class="prettyprint lang-javascript">
+var map, polyline;
+
+// create map and polyline
+function initialize(){
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 15,
+    center: new google.maps.LatLng(40.77333,-73.9723),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+
+  polyline = new google.maps.Polyline({
+    map: map,
+    strokeColor: '#ff0000',
+    strokeOpacity: 0.6,
+    strokeWeight: 4,
+    path: [  
+      new google.maps.LatLng(40.77153,-73.97722),
+      new google.maps.LatLng(40.76891,-73.97286),
+      new google.maps.LatLng(40.77273,-73.96859),
+      new google.maps.LatLng(40.77803,-73.96657)
+    ]
+  });
+
+  addListeners();
+  
+  // start editing the polyline
+  polyline.edit();
+};</pre>
+
+<pre class="prettyprint lang-javascript">
+function log(message){
+  document.getElementById("console").innerHTML = message;
+}</pre>  
+  
+<pre class="prettyprint lang-javascript">
+// start edit mode with given "ghost" option
+function startEdit(){
+  var options = {
+    ghosts: document.getElementById("ghosts").checked
+  }
+  
+  polyline.edit(true, options);
+}</pre>
+      
+<pre class="prettyprint lang-javascript">
+// stop edit mode
+function stopEdit(){
+  polyline.edit(false);
+}</pre>
+      
+<pre class="prettyprint lang-javascript">
+// toggle ghosts in edit mode 
+function toggleGhosts(){
+  stopEdit();
+  startEdit();
+}</pre>
+
+
+<pre class="prettyprint lang-javascript">
+function addListeners(){
+  // when editing started
+  google.maps.event.addListener(polyline, 'edit_start', function(){
+    log("[edit_start]");
+  });
+  
+  // when editing in finished
+  google.maps.event.addListener(polyline, 'edit_end', function(path){
+    var coords = [];
+    
+    path.forEach(function(position){ 
+      coords.push(position.toUrlValue(5));
+    });
+    
+    log("[edit_end]   path: " + coords.join(" | "));
+  });
+  
+  // when a single point has been moved
+  google.maps.event.addListener(polyline, 'edit_at', function(index, point){
+    log("[edit_at]    index: " +  index +  " point: " + point);
+  });
+  
+  // when a new point has been added
+  google.maps.event.addListener(polyline, 'insert_at', function(index, point){
+    log("[insert_at]  index: " +  index +  " point: " + point);
+  });
+  
+  // when a point was deleted
+  google.maps.event.addListener(polyline, 'remove_at', function(index, point){
+    log("[remove_at]  index: " +  index +  " point: " + point);
+  });
+}</pre>
+
+</body>
+</html>
