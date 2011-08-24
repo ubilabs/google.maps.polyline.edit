@@ -31,8 +31,14 @@
         ]
       });
       
+      addListeners();
+      
       // start editing the polyline
       polyline.edit();
+    }
+    
+    function log(message){
+      document.getElementById("console").innerHTML = message;
     }
     
     // start edit mode with given "ghost" option
@@ -55,6 +61,33 @@
       startEdit();
     }
     
+    function addListeners(){
+      // when editing started
+      google.maps.event.addListener(polyline, 'edit_start', function(){
+        log("[edit_start]");
+      });
+      
+      // when editing in finished
+      google.maps.event.addListener(polyline, 'edit_end', function(){
+        log("[edit_end]");
+      });
+      
+      // when a single point has been moved
+      google.maps.event.addListener(polyline, 'update_at', function(index, position){
+        log("[update_at]  index: " +  index +  " position: " + position);
+      });
+      
+      // when a new point has been added
+      google.maps.event.addListener(polyline, 'insert_at', function(index, position){
+        log("[insert_at]  index: " +  index +  " position: " + position);
+      });
+      
+      // when a point was deleted
+      google.maps.event.addListener(polyline, 'remove_at', function(index, position){
+        log("[remove_at]  index: " +  index +  " position: " + position);
+      });
+    }
+    
   </script>
   <script type="text/javascript" src="http://code.google.com/js/prettify.js"></script>
 </head>
@@ -71,20 +104,24 @@
   
   <div id="map" style="height:500px"></div>
 
+  <h2>Debug console</h2>
+
+  <pre id="console"></pre>
+
   <h2>HTML</h2>
   
-  <pre class="prettyprint lang-html">
+<pre class="prettyprint lang-html">
 &lt;a href=&quot;#&quot; onclick=&quot;startEdit()&quot;&gt;Start editing&lt;/a&gt;
 &lt;a href=&quot;#&quot; onclick=&quot;stopEdit()&quot;&gt;Stop editing&lt;/a&gt;
 &lt;label&gt;
   &lt;input type=&quot;checkbox&quot; id=&quot;ghosts&quot; onchange=&quot;toggleGhosts();&quot;/&gt;
   Show ghosts
 &lt;/label&gt;
-&lt;div id=&quot;map&quot; style=&quot;height:500px&quot;&gt;&lt;/div&gt;</pre>
-  
+&lt;div id=&quot;map&quot; style=&quot;height:500px&quot;&gt;&lt;/div&gt;
+&lt;pre id="console"&gt;&lt;/pre&gt;</pre>
   <h2>JavaScript</h2>
     
-  <pre class="prettyprint lang-javascript">
+<pre class="prettyprint lang-javascript">
 var map, polyline;
 
 // create map and polyline
@@ -107,12 +144,19 @@ function initialize(){
       new google.maps.LatLng(50.909365, 34.8288063)
     ]
   });
+
+  addListeners();
   
   // start editing the polyline
   polyline.edit();
 };</pre>
+
+<pre class="prettyprint lang-javascript">
+function log(message){
+  document.getElementById("console").innerHTML = message;
+}</pre>  
   
-    <pre class="prettyprint lang-javascript">
+<pre class="prettyprint lang-javascript">
 // start edit mode with given "ghost" option
 function startEdit(){
   var options = {
@@ -122,17 +166,47 @@ function startEdit(){
   polyline.edit(true, options);
 }</pre>
       
-    <pre class="prettyprint lang-javascript">
+<pre class="prettyprint lang-javascript">
 // stop edit mode
 function stopEdit(){
   polyline.edit(false);
 }</pre>
       
-    <pre class="prettyprint lang-javascript">
+<pre class="prettyprint lang-javascript">
 // toggle ghosts in edit mode 
 function toggleGhosts(){
   stopEdit();
   startEdit();
 }</pre>
+
+
+<pre class="prettyprint lang-javascript">
+function addListeners(){
+  // when editing started
+  google.maps.event.addListener(polyline, 'edit_start', function(){
+    log("[edit_start]");
+  });
+  
+  // when editing in finished
+  google.maps.event.addListener(polyline, 'edit_end', function(){
+    log("[edit_end]");
+  });
+  
+  // when a single point has been moved
+  google.maps.event.addListener(polyline, 'edit_at', function(index, point){
+    log("[edit_at]    index: " +  index +  " point: " + point);
+  });
+  
+  // when a new point has been added
+  google.maps.event.addListener(polyline, 'insert_at', function(index, point){
+    log("[insert_at]  index: " +  index +  " point: " + point);
+  });
+  
+  // when a point was deleted
+  google.maps.event.addListener(polyline, 'remove_at', function(index, point){
+    log("[remove_at]  index: " +  index +  " point: " + point);
+  });
+}</pre>
+
 </body>
 </html>
