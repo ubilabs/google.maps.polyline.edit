@@ -96,10 +96,10 @@ google.maps.event.addListener(polyline, 'remove_at', function(index, position){
 
 **Note:** This class uses several marker images in edit mode. 
 
-* ![GhostVertex](https://github.com/ubilabs/google.maps.polyline.edit/tree/master/src/images/ghostVertex.png) - ghostVertex.png
-* ![GhostVertexOver](https://github.com/ubilabs/google.maps.polyline.edit/tree/master/src/images/ghostVertexOver.png) - ghostVertexOver.png
-* ![Vertex](https://github.com/ubilabs/google.maps.polyline.edit/tree/master/src/images/vertex.png) - vertex.png
-* ![VertexOver](https://github.com/ubilabs/google.maps.polyline.edit/tree/master/src/images/vertexOver.png) - vertexOver.png
+* ![GhostVertex](https://github.com/ubilabs/google.maps.polyline.edit/raw/master/src/images/ghostVertex.png) - ghostVertex.png
+* ![GhostVertexOver](https://github.com/ubilabs/google.maps.polyline.edit/raw/master/src/images/ghostVertexOver.png) - ghostVertexOver.png
+* ![Vertex](https://github.com/ubilabs/google.maps.polyline.edit/raw/master/src/images/vertex.png) - vertex.png
+* ![VertexOver](https://github.com/ubilabs/google.maps.polyline.edit/raw/master/src/images/vertexOver.png) - vertexOver.png
 
 By default it looks for those images in "[../src/images/](https://github.com/ubilabs/google.maps.polyline.edit/tree/master/src/images/)". 
 
