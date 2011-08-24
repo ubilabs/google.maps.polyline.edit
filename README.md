@@ -6,6 +6,12 @@ This library adds an `edit` method to the `google.maps.Polyline` class. When the
 
 ![Screenshot](https://github.com/ubilabs/google.maps.polyline.edit/raw/master/screenshot.png)
 
+
+### Examples ###
+
+* [Default example](http://ubilabs.github.com/google.maps.polyline.edit/examples/default.html)
+* [Advanced example](http://ubilabs.github.com/google.maps.polyline.edit/examples/advanced.html)
+
 ### Basic Usage ###
 
 ```javascript
