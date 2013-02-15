@@ -39,9 +39,37 @@
   
       options = options || {};
       
+	  // Close the polyline shape
+	  options.close = options.close || false;
+	  // If close is set to false set stroke weight to 0, else inherit stroke weight
+	  options.strokeWeight = !options.close ? 0 : polyline.strokeWeight;
+	  // Fill the polyline shape
+	  options.fill = options.fill || false;
+	  // Fill color
+	  options.fillColor = options.fillColor || '#5555FF';
+	  // Fill opacity
+	  options.fillOpacity = options.fillOpacity || 0.3;
+	  // Overwrite opacity to 0 if fill is set to false
+	  if (!options.fill) {
+		options.fillOpacity = 0;
+	  }
+	  
       options.ghosts = options.ghosts || (options.ghosts === undefined);
       options.imagePath = options.imagePath || google.maps.Polyline.prototype.edit.settings.imagePath;
-      
+	  
+	  // If close or fill is set, draw our polygon using the polyline path
+      if (options.close || options.fill) {
+		var polygon = new google.maps.Polygon({
+		  strokeColor: polyline.strokeColor,
+		  strokeWeight: options.strokeWeight,
+		  strokeOpacity: polyline.strokeOpacity,
+		  fillColor: options.fillColor,
+		  fillOpacity: options.fillOpacity
+		});
+		polygon.setMap(polyline.getMap());
+		polygon.setPaths(new google.maps.MVCArray([polyline.getPath()]));
+	  }
+	  
       if (options.ghosts) {
         var imgGhostVertex = new google.maps.MarkerImage(
           options.imagePath + 'ghostVertex.png', 
@@ -346,6 +374,19 @@
         stop(this);
       }
     }
+	
+	/**
+	 * Loops through points with a callback function
+	 */
+	google.maps.Polyline.prototype.forEach = function(cb){
+	  if(this.getPath().length > 0){
+	    this.getPath().forEach(function (vertex, index) {
+          if (vertex.marker) {
+			cb(vertex, index);
+		  }
+	    });
+	  }
+	}
     
     google.maps.Polyline.prototype.edit.settings = {
       imagePath: "../src/images/"
