@@ -1,0 +1,87 @@
+<!DOCTYPE html> 
+<html> 
+<head>
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+  <link rel="stylesheet" type="text/css" href="http://code.google.com/css/codesite.css"></link>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?libraries=geometry&amp;sensor=false"></script>
+  <script type="text/javascript" src="../src/polyline.edit.js"></script>
+  <script type="text/javascript">
+	var map, polyline;
+	
+	// create map and polyline
+    function initialize(){
+        map = new google.maps.Map(document.getElementById("map"), {
+          zoom: 15,
+          scrollwheel: false,
+          center: new google.maps.LatLng(40.77333,-73.9723),
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        polyline = new google.maps.Polyline({
+          map: map,
+          path: [  
+            new google.maps.LatLng(40.775722449409415,-73.97773498413085),
+			new google.maps.LatLng(40.77585253210323,-73.97423581296749),
+			new google.maps.LatLng(40.77802994723262,-73.97245315996656),
+			new google.maps.LatLng(40.775852583394965,-73.97099884640886),
+			new google.maps.LatLng(40.7757550518324,-73.96722719885395),
+			new google.maps.LatLng(40.774032628390046,-73.97002166025652),
+			new google.maps.LatLng(40.771595203524846,-73.96921117257477),
+			new google.maps.LatLng(40.77390275119192,-73.97246107044907),
+			new google.maps.LatLng(40.77157897506709,-73.97612452891929),
+			new google.maps.LatLng(40.77396769409926,-73.97511015350346)
+          ]
+        });
+      
+      polyline.edit(true, {fill: true, close: true});
+    }
+	
+	function showPoints(){
+	  var str = [];
+	  polyline.forEach(function(vertex, index){
+		str.push(vertex.marker.getPosition().lat() + ',' + vertex.marker.getPosition().lng());
+	  });
+	  alert(str.join("\n"));
+	}
+  </script>
+  <script type="text/javascript" src="http://code.google.com/js/prettify.js"></script>
+</head>
+<body onload="prettyPrint();initialize();">
+  <h1>Default Example</h1>
+  <a href="#" onclick="javascript: showPoints(); return false;">Show points</a>
+  <div id="map" style="height:500px"></div>
+  <h2>HTML</h2>
+  
+  <pre class="prettyprint lang-html">
+&lt;div id=&quot;map&quot; style=&quot;height:500px&quot;&gt;&lt;/div&gt;</pre>
+  
+  <h2>JavaScript</h2>
+    
+  <pre class="prettyprint lang-javascript">
+// create map and polyline
+var map, polyline;
+
+map = new google.maps.Map(document.getElementById("map"), {
+  zoom: 15,
+  center: new google.maps.LatLng(40.77333,-73.9723),
+  mapTypeId: google.maps.MapTypeId.ROADMAP
+});
+
+polyline = new google.maps.Polyline({
+  map: map,
+  path: [  
+    new google.maps.LatLng(40.77153,-73.97722),
+    new google.maps.LatLng(40.77803,-73.96657)
+  ]
+});
+
+polyline.edit(true, {fill: true, close: true});</pre>
+
+  <pre class="prettyprint lang-javascript">
+// Loop through polyline points
+polyline.forEach(function(vertex, index){
+  console.log(vertex.marker.getPosition().lat() + ',' + vertex.marker.getPosition().lng());
+});</pre>
+ 
+</body>
+</html>
