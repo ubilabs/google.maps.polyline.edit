@@ -205,8 +205,8 @@ function addListeners(){
   });
   
   // when a single point has been moved
-  google.maps.event.addListener(polyline, 'edit_at', function(index, point){
-    log("[edit_at]    index: " +  index +  " point: " + point);
+  google.maps.event.addListener(polyline, 'update_at', function(index, point){
+    log("[update_at]    index: " +  index +  " point: " + point);
   });
   
   // when a new point has been added
